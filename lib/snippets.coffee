@@ -145,14 +145,17 @@ module.exports =
     longestPrefixMatch = null
 
     for snippetPrefix, snippet of snippets
+      console.log prefix
+      console.log snippetPrefix
       if snippetPrefix is prefix
         longestPrefixMatch = snippet
         break
-      else if _.endsWith(prefix, snippetPrefix)
-        longestPrefixMatch ?= snippet
-        if snippetPrefix.length > longestPrefixMatch.prefix.length
-          longestPrefixMatch = snippet
+      # else if _.endsWith(prefix, snippetPrefix)
+      #   longestPrefixMatch ?= snippet
+      #   if snippetPrefix.length > longestPrefixMatch.prefix.length
+      #     longestPrefixMatch = snippet
 
+    console.log longestPrefixMatch
     longestPrefixMatch
 
   getSnippets: (editor) ->
