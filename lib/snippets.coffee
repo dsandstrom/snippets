@@ -97,7 +97,7 @@ module.exports =
     @bodyParser ?= require './snippet-body-parser'
 
   getPrefixText: (snippets, editor) ->
-    wordRegex = @wordRegExp()
+    wordRegex = @wordRegexForSnippets(snippets)
     cursors = editor.getCursors()
     for cursor in cursors
       prefixStart = cursor.getBeginningOfCurrentWordBufferPosition({wordRegex})
@@ -138,16 +138,6 @@ module.exports =
       prefixes[character] = true for character in prefix
     prefixCharacters = Object.keys(prefixes).join('')
     new RegExp("[#{_.escapeRegExp(prefixCharacters)}]+")
-
-  # TODO: user cursor method instead
-  wordRegExp: ({includeNonWordCharacters}={}) ->
-    includeNonWordCharacters ?= true
-    nonWordCharacters = atom.config.get('editor.nonWordCharacters')
-    segments = ["^[\t ]*$"]
-    segments.push("[^\\s#{_.escapeRegExp(nonWordCharacters)}]+")
-    if includeNonWordCharacters
-      segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
-    new RegExp(segments.join("|"), "g")
 
   # Get the best match snippet for the given prefix text.  This will return
   # the longest match where there is no exact match to the prefix text.
